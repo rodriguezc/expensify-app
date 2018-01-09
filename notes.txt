@@ -1408,6 +1408,9 @@ Si on appelle /create, il faut que le serveur web serve toujours index.html (on 
 
 
 
+Ajouter une 404:
+
+
 
 
 
