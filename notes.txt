@@ -1,0 +1,1416 @@
+https://www.udemy.com/react-2nd-edition/learn/v4/t/lecture/7707632?start=0
+
+###Evaluation REACT###
+
+3 raisons d'apprendre react:
+-learning curve: rapide
+-community:  Une des meilleurs. Stack overflow Beaucoup de librairies. Facebook,  neflix, uber -> investissent dans cette techno
+-speed of react: Orienté composant. On casse une grosse applications en petit composants. 
+
+
+Visual studio:
+
+Node: Javascript on the server
+Plugin : emmet
+
+prérequis:
+nodejs
+yarn (npm install -g yarn)
+
+Exercice 1:
+http://indecision.mead.io/
+https://github.com/andrewjmead/react-course-2-indecision-app
+
+
+mkdir indecision-app
+cd indecision-app
+mkdkir public
+cd public
+touch index.html
+
+liveserver:  yarn global add live-server
+live-server public
+
+
+  <script src="https://unpkg.com/react@15/dist/react.js"></script> <!-- Moteur de react -->
+  <script src="https://unpkg.com/react-dom@15/dist/react.js"></script> <!-- React avec le browser--> 
+
+
+
+  Dans la console Chrome on peut lancer des commandes:
+  React & ReactRom --> savoir si react existe
+  
+  // JSX = JavaScript XML -> Fournit p
+  ar react --> Beaucoup plus facile de faire des templates - fantastique 
+
+
+Pour que JSX fonctionne: Il faut le compiler -->
+Avoir babbel
+
+
+var template = <p>This is JSX from app.js! </p>; 						   --> Le browser comprend pas
+var template = React.createElement("p", null, "This is JSX from app.js! ") --> Le browser comprend
+
+Exemple hyper basique:
+var template = React.createElement("p", null, "This is JSX from app.js! ");
+var appRoot = document.getElementById("app");
+
+ReactDOM.render(template, appRoot);
+
+
+Setting up babbel:
+http://babeljs.io/docs/plugins/preset-react/
+
+-->
+Lance les commandes:
+yarn global add babel-cli@6.24.1
+babel --help
+Installer les presets babel:
+yarn init 
+--> Crée un fichier package.json
+yarn add babel-preset-react@6.24.1
+yarn add babel-preset-env@1.5.2
+
+yarn.lock --> Permet d'avoir exactement les mêmes dépendances dans toutes les machines, environnements, etc.
+
+Compiler avec babel:
+babel src/app.js  --presets=env,react --out-file=public/scripts/app.js
+
+-->Compile dès que le fichier source change
+babel src/app.js  --presets=env,react --out-file=public/scripts/app.js --watch
+--> On utilise en même temps live-server public
+
+
+nodes_modules : ne doit pas être commité.  Le fichier .lock doit être par contre commité pour être sûr des versions
+Si on supprime node_modules il faut refaire la commande: yarn install
+
+
+#Plugins recommandés: 
+Babel ES6 ES7
+Beautify css/sass/
+Duplicate action
+ESLint
+GIt history (git log)
+Path intellisense
+Sass Lint
+SCSS IntelliSense
+Sublime Text Keymap
+
+
+JSX: Il doit y avoir forcément un élément ROOT
+var template = (
+  <div>
+    <h1>Indecision App</h1>
+    <p>This is some info</p>
+  </div>
+);
+Plus lisible que
+var template = 
+  <div>
+    <h1>Indecision App</h1>
+    <p>This is some info</p>
+  </div>
+;
+    <h1>{user.name}</h1> --> OK
+	    <h1>{user}</h1> --> KO : React ne veut pas d un objet . Voir console
+
+
+Conditional rendering:
+
+if statement
+ternary operators
+logical and operator
+
+
+
+
+
+
+
+<h1>{}</h1> {} --> {} Any javascript expression    
+<h1>{userName.toUpperCase()}</h1>
+
+
+
+function getLocation() {
+  return "Unknown";
+}
+<p>Location: {getLocation()}</p>
+
+
+<p>Location: {getLocation(user.Location)}</p>
+function getLocation(location) {
+  if (location) {
+    return location;
+  }
+  return "Unknown";
+}
+
+Cacher tout un élément:
+
+    {<h3>My h3</h3>}
+
+function getLocation(location) {
+  if (location) {
+    return <p>Location: {location}</p>;
+  }
+  return undefined; //React sait qu il ne doit rien afficher dans ce cas. Facultatif de retourner undefined
+}
+
+var templateTwo = (
+  <div>
+    <h1>{user.name}</h1>
+    <p>Age: {user.age}</p>
+    {getLocation(user.location)} == Aero function
+  </div>
+);	
+	
+
+Termary operator (more concise): 
+true ? 'Andrew' : 'Anonymous'
+
+
+false / true / null ne sont pas affichés par JSX
+
+	
+
+	Logical and operator:
+	true && 'Some Age' --> retourne 'Some age'
+	false && 'Some age' --> Retourne 'false'
+	
+{user.age >= 18 &&  <p>Age: {user.age}</p>}
+
+{user.age && user.age >= 18 && <p>Age: {user.age}</p>}
+
+
+####################################
+ES6:
+Problèmes du var:
+var nameVar = "Andrew";
+var nameVar = "Mike";
+On peut le déclarer plusieurs fois en plus de réaissigner sa valeur
+
+A l'intérieur d'une fonction, var est visible au niveau de la fonction.
+
+Autre exemple tordu:
+var fullName = "Andrew Mead";
+
+if (fullName) {
+  var firstName = fullName.split(" ")[0];
+}
+
+console.log(firstName); --> Firstname est accessible
+Il est donc function scoped. Let et const sont block scoped
+
+
+let:
+let nameLet = "Jen";
+let nameLet = "toto";
+-->
+ Duplicate declaration "nameLet" déclenché par le compilateur
+ 
+
+const:
+const nameConst = "Franck";
+const nameConst = "Gunther";
+On ne peut pas redéclarer
+-->
+ Duplicate declaration
+Ni réassigner la valeur (= final)
+
+
+--> NE PLUS UTILISER VAR mais utiliser CONST ET LET
+
+
+####################################
+
+arrow function =  lambdas
+
+On ne peut pas leur donner un nom, elles sont anonymes et associées à une variable
+
+const squareArrow = x => {
+  return x * x;
+};
+En plus concis:
+const squareArrow = (x) => x*x;
+
+
+
+Différences arrow functions et es5 functions:
+Dans arrow function: il n'y a plus the "arguments" object donc:
+const add = function(a, b) {
+  console.log(arguments);
+  return a + b;
+};
+
+console.log(add(55, 1, 3));
+
+Maintenant:
+const add = (a, b) => {
+  console.log(arguments);
+  return a + b;
+};
+--> CA PLANTE : arguments undefined
+
+
+Pareil avec les fonctions:
+ES5:
+
+const user = {
+  name: "Andrew",
+  cities: ["Geneva", "Lausanne", "Dublin"],
+  printPlacesLived: function() {
+    console.log(this.name);
+    console.log(this.cities);
+  }
+};
+user.printPlacesLived();
+//this est bien relatif à l'objet contenant la fonction.
+
+const user = {
+  name: "Andrew",
+  cities: ["Geneva", "Lausanne", "Dublin"],
+  printPlacesLived: function() {
+    console.log(this.name);
+    console.log(this.cities);
+
+    this.cities.forEach(function(city) {
+      console.log(this.name + " has lived in " + city);
+    });
+  }
+};
+
+--> this.name dans le foreach ne marche plus car il n'est plus bindé par rapport à user.
+
+Différence avec lambda: lambda ne fait pas de  binding, il reprend juste le this disponible dans le contexte où il se trouve
+
+const user = {
+  name: "Andrew",
+  cities: ["Geneva", "Lausanne", "Dublin"],
+  printPlacesLived: function() {
+    console.log(this.name);
+    console.log(this.cities);
+
+    this.cities.forEach(city => {
+      console.log(this.name + " has lived in " + city);
+    });
+  }
+};
+l'arrow function utilise le this dipsonible qui est celui de user. donc ca marche.
+
+Par contre l'exemple suivant ne marche plus:
+const user = {
+  name: "Andrew",
+  cities: ["Geneva", "Lausanne", "Dublin"],
+  printPlacesLived: ()=> {
+    console.log(this.name);
+    console.log(this.cities);
+
+    this.cities.forEach(city => {
+      console.log(this.name + " has lived in " + city);
+    });
+  }
+};
+user.printPlacesLived();
+
+DONC "this" est un objet qui se crée uniquement avec la déclaration d'une fonction ES5
+
+Façon plus élégante d'écrire une ES5 function sans devoir déclarer "= function" (qui a donc les mêmes paramètres:
+  cities: ["Geneva", "Lausanne", "Dublin"],
+  printPlacesLived() {
+    this.cities.forEach(city => {
+      console.log(this.name + " has lived in " + city);
+    });
+  }
+};
+
+##################################
+Utilisation du forEach VS map
+ this.cities.forEach(city => {
+      console.log(this.name + " has lived in " + city);
+    });
+
+
+const cityMessages = this.cities.map(city => {
+  return this.name + " has lived in " + city;
+});
+
+avec le map on peut appliquer une transformation à l'objet et obtenir une nouvelle liste.	
+C'est vraiment beaucoup utilisé ces transformations
+
+Encore plus concis:
+return this.cities.map(city => this.name + " has lived in " + city);
+
+##################################
+Events and attributes
+en JSX un attribut class doit être renommé en "className"
+
+const templateTwo = (
+  <div>
+    <h1>Count: {count}</h1>
+    <button className="button" id="my-id">
+      +1
+    </button>
+  </div>
+);
+quand on fait un console.log d un jsx, on peut ensuite regarder son contenu. Voir les "props" est très intéressant puisqu'on y retrouve les children de l'élément root, en l'occurence du div.
+Voir:
+https://facebook.github.io/react/docs/dom-elements.html
+Les attributs identiques sont par contre devenus "camelCase"
+Certains mots sont réservés en javascript, d'ou le changement class en className
+
+const someId = "myidhere";
+<button id={someId}
+
+!! 
+    <button onClick={(addOne)=>{}}>+1</button>
+
+	Attention: éviter de déclarer la fonction anonymement mais la mettre dehors:
+	const addOne = () => {
+		  console.log("addOne");
+		};
+	    <button onClick={addOne}>+1</button>
+
+
+##################################
+Manual data binding
+
+JSX n'a pas de "data binding". Changer une variable de valeur ne mets pas à jour le dom.
+Pourquoi?
+->
+
+const addOne = () => {
+  count++;
+};
+
+const templateTwo = (
+  <div>
+    <h1>Count: {count}</h1>
+    <button onClick={addOne}>+1</button>
+  </div>
+);
+
+console.log(templateTwo);
+
+const appRoot = document.getElementById("app");
+//ReactDOM.render(template, appRoot);
+ReactDOM.render(templateTwo, appRoot);
+
+
+//lors du addOne il n'y a pas de nouvel appel à la fonction "render"
+//Pour résoudre:
+
+const addOne = () => {
+  count++;
+  console.log("addOne", count);
+  renderCounterApp();
+};
+
+
+const appRoot = document.getElementById("app");
+
+const renderCounterApp = () => {
+  const templateTwo = (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={addOne}>+1</button>
+      <button onClick={minusOne}>-1</button>
+      <button onClick={reset}>reset</button>
+    </div>
+  );
+  ReactDOM.render(templateTwo, appRoot);
+};
+
+renderCounterApp();
+
+Dans chrome: 
+Quand on regarde le dom, ce qui "flash" est ce qui est re-rendu.
+On peut penser que l'exempkle ci-dessus est coûteux, mais non:
+Virtual Dom algorithms: permet de changer le minimum d'élément. Meme si on render tout. Le JSX est un objet, donc un algo est applicable.
+
+
+
+Obtention de l'objet event:
+
+const onFormSubmit = e => {
+  e.preventDefault();
+};
+    <form onSubmit={onFormSubmit}>
+
+
+const onFormSubmit = e => {
+  e.preventDefault();
+  const option = e.target.elements.option.value;  //Voir nom dans formulaire
+  if(option)
+  console.log(option);
+};
+
+
+    <form onSubmit={onFormSubmit}>
+      <input type="text" name="option" />
+      <button type="submit">Add option</button>
+    </form>
+
+
+################################################################
+Arrays:
+
+	
+<p>
+{[99, 98, 97, "Mike smith", null, undefined, true]}
+</p>
+
+--> null, undefined et true ne sont pas affichés, seulement:
+999897Mike smith
+
+{[<p>a</p>, <p>b</p>, <p>c</p>]}
+	--> WARNING: Il faut une key sinonreact n'arrive pas à indexer
+{[<p key="1">a</p>, <p key="2">b</p>, <p key="3">c</p>]}
+	
+Iteration:
+<p>
+ {numbers.map(number => {
+        return <p key={number}>Number : {number}</p>;
+      })}
+</p>
+
+
+ <ol>
+        {app.options.map(option => {
+          return <li key={option}>{option}</li>;
+        })}
+      </ol>	
+	
+Version plus concise:
+      <ol>{app.options.map(option => <li key={option}>{option}</li>)}</ol>
+	
+
+################################################################
+Visibility toggle
+
+const renderApp = () => {
+  const template = (
+    <div>
+      <h1>Visible toggle</h1>
+      <button onClick={onToggleDetails}>Show details</button>
+      {toggleDetails && <div>Some details</div>}
+    </div>
+  );
+  console.log(ReactDOM.render(template, appRoot));
+};
+
+Attention: Faut bien mettre le template dans renderApp!!! Si on mets template en dehors il n'est pas recalculé
+
+
+################################################################
+### React components!
+################################################################
+On crée autant de composant qu'on veut pour factoriser notre JSX, qu'on a besoin sur plusieurs pages ou sur la même page
+Exemple de composants
+<Header />
+<ProfileWidget />
+<Trends />
+<Trend />
+<Tweet />
+<DashboardPage /> Contenant tous les autres ci-dessus
+
+Autre exemple:
+<IndecisionApp />
+<Header />
+<Action />
+<Options />
+<Option />
+<AddOption/>
+
+########Création de classes############
+class Person {
+  constructor(name) {
+    console.log(name);
+  }
+}
+
+const me = new Person("Christophe Rodriguez");
+
+class Person {
+  constructor(name) {
+    this.name = name || "test";
+  }
+}
+const other = new Person();
+console.log(other);
+--> L'instance Person a comme nom "test"
+
+
+class Person {
+  constructor(name = "Anonymous") {
+    this.name = name;
+  }
+}
+--> Valeur par défaut
+
+
+Déclarer une méthode:
+class Person {
+  constructor(name = "Anonymous") {
+    this.name = name;
+  }
+
+  getGreeting() {
+    return "Hi";
+  }
+}
+
+Backticks ES6:   `` 
+class Person {
+  constructor(name = "Anonymous") {
+    this.name = name;
+  }
+
+  getGreeting() {
+    // return "Hi. I am  " + this.name + "!";
+    return `Hi. I am ${this.name}!`;
+  }
+}
+
+Extension de classe:
+class Student extends Person {
+  constructor(name, age, major) {
+    super(name, age);
+    this.major = major;
+  }
+}
+
+
+Flip flap:
+!'' -> retourne false
+!!'salut' -> retourne true
+!'salut'-> reetourne false
+
+!!'' -> retourne false
+!''-> reetourne true
+
+!!this.name Permet d'avoir toujours true ou false. meme si this.name est undefined
+
+
+My first component:
+class Header extends React.Component {
+  render() {
+    return <p>This is from Header</p>;
+  }
+}
+
+const jsx = (
+  <div>
+    <h1>Title</h1>
+	<Header />
+  </div>
+);
+
+ReactDOM.render(jsx, document.getElementById("app"));
+
+
+
+
+
+
+Autre exemple:
+class IndecisionApp extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Action />
+        <Options />
+        <AddOption />
+      </div>
+    );
+  }
+}
+ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
+
+
+######COMPONENTS PROPS###############################################
+<Header title="Test value" />
+
+class Header extends React.Component {
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        <h1>{this.props.title}</h1>
+        <h2>Put your life in the hands of a computer</h2>
+      </div>
+    );
+  }
+}
+OU autre façon:
+class IndecisionApp extends React.Component {
+  render() {
+    const title = "Indecision";
+    return (
+      <div>
+        <Header title={title} />
+        <Action />
+        <Options />
+        <AddOption />
+      </div>
+    );
+  }
+}
+
+Encore un exemple:
+class IndecisionApp extends React.Component {
+  render() {
+    const title = "Indecision";
+    const subtitle = "Put your life in the hands of a computer";
+    const options = ["Thing one", "Thing two", "Thing four"];
+    return (
+      <div>
+        <Header title={title} subtitle={subtitle} />
+        <Action />
+        <Options options={options} />
+        <AddOption />
+      </div>
+    );
+  }
+}
+
+class Options extends React.Component {
+  render() {
+    return (
+      <div>
+        Options component here: {this.props.options.length}
+        <Option />
+      </div>
+    );
+  }
+}
+
+
+######EVENT HANDLERS###############################################
+class AddOption extends React.Component {
+  handleAddOption(e) {
+    e.preventDefault();
+    const option = e.target.elements.option.value.trim();
+    if (option) {
+      alert("Value tiped");
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleAddOption}>
+          <input type="text" name="option" />
+          <button type="submit">Add option</button>
+        </form>
+      </div>
+    );
+  }
+}
+#####METHOD BINDING###############################################
+const obj = {
+  name: "Vikram",
+  getName() {
+    return this.name;
+  }
+};
+const getName = obj.getName;
+console.log(getName());
+
+--> NOT WORKING: CAR:
+Le contexte n'est pas le même. On le perd. Le contexte n'est pas trasnsféré.
+Quand on crée une constante pour la méthode on perd la fonction.
+Solution:
+const getName = obj.getName.bind(obj);
+OU:
+const getName = obj.getName.bind({ name: "Andrew" });
+
+Exmemple d'utilisation en JSX:        
+<button onClick={this.handleRemoveAll.bind(this)}>Remove all</button>
+
+Autre solution: mettre le bind dans le constructeur:
+
+class Options extends React.Component {
+  constructor(props) {
+    super(props);
+    this.props = props;
+    this.handleRemoveAll = this.handleRemoveAll.bind(this);
+  }
+
+  handleRemoveAll() {
+    //alert("handleRemoveAll");
+    console.log(this.props.options);
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleRemoveAll}>Remove all</button>
+        {this.props.options.map(option => (
+          <Option key={option} optionText={option} />
+        ))}
+      </div>
+    );
+  }
+}
+
+####Component state####
+state: c'est un object avec des clés-valeurs, ayant une valeur par défaut et Lorsqu'un state change, le composant est de nouveau renderé par react si on modifie son state.
+
+Mettre un state default:
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state =  {
+        count : 0,
+		name : "Julie"
+    };
+}
+Utilisation:
+<h1>Count: {this.state.count}</h1>
+
+Changer l'état:
+ this.setState(previousState => {
+      return {
+        count: previousState.count + 1
+      };
+    });
+	
+Le nouvel état doit contenir que les clés qui ont changées
+	
+
+Autre syntaxe:
+On peut passer un objet directement. C'est l'ancienne approche. Mais c'est pas recommandé. Normalement ça devrait disparaître d'ici les prochaines versions react.
+Exemple très dangereux:
+ this.setState(() => {
+      return {
+        count: 0
+      };
+    });
+
+    this.setState({
+      count: this.state.count + 1
+    });
+--> !!!!! Le premier changement d'état n'a pas encore été pris en compte. IL EST ASYNCHRONE!!! Le deuxième changement d'état se base donc sur une autre valeur que 0.
+Ca ca marche par contre:
+this.setState(() => {
+      return {
+        count: 0
+      };
+    });
+
+    this.setState(previousState => {
+      return {
+        count: previousState.count + 1
+      };
+    });	
+
+react va "batcher" ces changements d'état pour avoir à faire le moins de changements possibles
+
+
+
+Comment un child peut manipuler le state d'un parent:
+Il faut que le parent exposer une méthode, et qu'on la file a l'enfant
+
+
+prevState.options.push(option); //PAS BIEN 
+//A LA PLACE UTILISER:
+  this.setState((prevState)=>{
+        return {
+            options: prevState.options.concat(option) 
+        };
+    })
+
+
+Tip ES6:
+ return {
+        error: error
+      };
+	  
+Est égal à 
+return {
+error
+};  
+
+
+############SCOPE VS PROPS###############
+Props                          			State
+an object				       			too
+Can be use when rendering      			too
+Changes from above cause-re-renders		Changes cause re-renders
+Comes from above						Defined in component itself
+Can't be change by component itself		Can be changed by component itself			
+
+###########STATELESS FUNCTIONAL COMPONENT##########
+-N'utilisent pas des états
+Si un composant est sans état pas besoin de faire une classe on peut le déclarer en fonction
+
+const User = () => {
+  return (
+    <div>
+      <p>Name: </p>
+      <p>Age: </p>
+    </div>
+  );
+};
+
+ReactDOM.render(<User />, document.getElementById("app"));
+
+const User = props => {
+  return (
+    <div>
+      <p>Name: {props.name}</p>
+      <p>Age: {props.age}</p>
+    </div>
+  );
+};
+
+ReactDOM.render(
+  <User name="Andrew" age="21" />,
+  document.getElementById("app")
+);
+
+React peut donc recevoir soit une fonction soit une classe
+
+###########Default props values##########
+
+Sur les stateless components:
+const Header = props => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      {props.subtitle && <h2>{props.subtitle}</h2>}
+    </div>
+  );
+};
+
+Header.defaultProps = {
+  title: "Indecision"
+};
+
+
+Sur les classes:
+
+class IndecisionApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+    this.handlePick = this.handlePick.bind(this);
+    this.handleAddOption = this.handleAddOption.bind(this);
+
+    this.state = {
+      options: props.options
+    };
+  }
+ }
+ 
+ 
+IndecisionApp.defaultProps = {
+  options: ["Thing one", "Thing two", "Thing four"]
+};
+ 
+
+ ############REACT DEV TOOLS####################
+ Plugin chrome.
+ Permet de voir le tree JSX: Donc le dom virtuel
+ !! On peut voir les props et les states de chaque composant
+ !! On peut changer la valeur des states
+ 
+ Lorsqu'on clique sur un composant on a la variable $r accessible dans la console pour ce composant
+
+
+ ############REMOVING INDIVDUAL OPTIONS####################
+const num = ()=> ({});  //ARROW FUNCTION QUI RETOURNE UN OBJET
+this.setState(() => ({ options: [] }));  //IDEM. Façon élégante et concise de retourner un objet
+
+
+//Filtering des tableaux:
+  handleDeleteOption(optionToRemove) {
+    this.setState(prevState => ({
+      options: prevState.options.filter(option => {
+        return option !== optionToRemove;
+      })
+    }));
+    console.log("hdo", optionToRemove);
+  }
+
+ ############Lifecycle methods####################
+ https://reactjs.org/docs/react-component.html
+ 
+ 
+ 
+Ne sont pas disponibles avec les stateless components
+On ne peut pas donc populer par exemple des données avec la DB
+il faut une classe pour:
+  componentDidMount() {
+    console.log("Component did mount!");
+  }
+
+    componentDidUpdate() {
+    --> Appelé lors d'un changement d'état ou de props. Même s'il  n'y a pas de changement d'état
+  }
+
+ 
+//On peut imaginer sauver les données à ce moment là? 
+componentDidUpdate(prevProps, prevState) {
+console.log("ICI");
+}
+
+componentWillUnmount(){
+ //Lorsqu'il est enlevé   
+}
+Pour tester :
+depuis la console chrome taper:
+ReactDOM.render(React.createElement('p'), document.getElementById('app'));
+==> Cela efface le contenu actuel et appelle donc le unmount
+
+ ############Local storage####################
+ Stockage de clé/valeur STRING uniquement:
+ localStorage.setItem('name', 'Andrew');
+ localStorage.getItem('name');
+ localStorage.removeItem('name');
+ localStorage.clear();
+ 
+ 
+ ############Webpack####################
+ -Asset bundler
+ -Va permetttre d'avoir plein de petits fichiers javascript et de les réduire lors du packaging
+ -Organiser le javascript
+ -Le bundle contiendra tout ce que l'application a besoin pour tourner.
+ -Fonctionne avec les imports / exports. (vs gulp, grunt)
+ -D'intégrer les modules NPM, de les upgrader
+
+ 
+ Avant webpack:
+ public/index.html Ce fichier HTML doit charger dans l'ordre:
+ public/util.js
+ public/react.js
+ public/react-dom.js
+ public/app.js
+ 
+ Après webpack:
+ public ---> pour servir nos assets comme le html
+ src/ --> nos sources
+ nodes_modules  --> les thirds parties
+ 
+ nos sources vont avoir des dépendances qui sont définies dans le JS. Exemple app.js va dépendre de react, de react-dom.js, etc.
+ 
+ Puis webpack va créer un fichier "bundle.js" avec tout le contenu qu'il va mettre dans "public"
+ 
+NPM: AVOID GLOBAL MODULES!!!
+Il est déconsillé d'installer des global modules. Par exemple installer live-server, ou babel globally.
+C'est conseillé d'avoir toutes les dépendances dans le package.json:
+yarn global remove babel-cli live-server
+
+A la place: 
+1. ajouter dans package.json la dépendance:
+yarn add live-server babel-cli@6.24.1
+2. Editer le fichier package.json et ajouter:
+  "scripts": {
+    "serve": "live-server public/"
+  },
+3. Runner le script  
+yarn run serve -- --port=9000    
+
+
+
+#########Installation de webpack:#############
+1. 
+yarn add webpack@3.1.0
+"scripts": {
+	"build": "webpack --watch",
+},
+
+2. Créer un fichier de conf
+/webpack.config.js
+
+const path = require("path");
+module.exports = {
+  entry: "./src/app.js", // where webpack looks to start building the bundle
+  output: {  //Ou stocker la compilation
+    path: path.join(__dirname, "public"),
+    filename: "bundle.js"
+  }
+};
+
+3. Mettre à jour le fichier .js:
+<script src="/bundle.js"></script>
+
+WEBPACK sait faire de l'ES6, ES7 by default
+depuis app.js:
+import "./utils.js";
+
+Webpack va merger les deux. Ils gardent par contre leur scope interne. Pour partager des fonctions:
+
+
+######ES6 imports and exports#######
+
+Pour exporter on a deux possibilités:
+default export:
+Le fichier qui exporte:
+const subtract = (a, b) => a - b;
+export {subtract as default };
+Ou
+const subtract = (a, b) => a - b;
+export default subtract;
+Ou
+export default  (a, b) => a - b;;
+
+
+
+
+Le fichier qui importe:
+import subtract, { square, add } from "./utils.js";
+
+On peut renommer sans problème "subtract" dans l'import. Le naming n'est pas important.
+
+
+named export:
+
+Le fichier qui exporte:
+const square = x => x * x;
+const add = (a, b) => a + b;
+export { square, add };
+Ou
+export const square = x => x * x;
+export const add = (a, b) => a + b;
+
+
+Le fichier qui importe:
+import { square, add } from "./utils.js"; //OU simplement add. faut importer ce qu on utilise.
+
+
+Règle pour définir si on exporte default ou named:
+Si c'est un gros truc on exporte en default 
+
+
+################UTILISATION DE NPM####################
+1. Install
+exemple:
+yarn add validator
+
+Pour react:
+yarn add react react-dom
+OU EN FIGEANT LA VERSION:
+yarn add react@16.0.0 react-dom@16.0.0
+
+
+2. Import
+import validator from 'validator' --> WEBPACK se débrouuille pour le chercher dans nodes_modules
+Webpack est assez malin pour n'ajouter que les modules qui sont utilisés
+var React = require('REACT) --> Ancienne façon de faire en ES5
+
+Pour react:
+https://reactjs.org/docs/react-api.html
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+3. Use
+const template = React.createElement("p", {}, "testing 123");
+ReactDOM.render(template, document.getElementById("app"));
+
+################AJOUT du processing jsx et es6 A WEBPACK####################
+On doit utiliser les "loaders": permettent de processer les fichiers
+yarn add babel-core@6.25.0 babel-loader@7.1.1
+
+Ensuite:
+Ajouter dans webpack.config.js:
+ module: {
+    rules: [
+      {
+        loader: "babel-loader",
+        test: /\.js$/, //babel-loader processe uniquement ces fichiers
+        exclude: /nodes-modules/ //On exclut ce répertoire
+      }
+    ]
+  }
+  
+ ET créer un fichier .babelrc:
+{
+  "presets": ["env", "react"]
+}
+
+################One component per File##################
+Un composant par fichier
+Créer un fichier src/components/AddOption.js
+
+Exporter la classe:
+export default class AddOption extends React.Component 
+
+Importer la classe:
+import AddOption from "./components/AddOption"
+
+
+################Source Maps with Webpack##################
+Les fichiers sont minifiés dans un seul javascript.
+Cependant c'est embetant en cas d'erreur car on se retrouve dans cet immense fichier qui n'est pas le fichier source ES6.
+Solution: Webpack devtool - cheap-module-eval-source-map
+https://webpack.js.org/configuration/devtool/#devtool
+
+
+################Webpack dev server##################
+Plus rapide que live-server. Recommandé.
+yarn add webpack-dev-server@2.5.1
+
+Dans webpack.config.js:
+  devServer: {
+    contentBase: path.join(__dirname, 'public')
+  }
+Dans package.json
+ "scripts": {
+    "dev-server" : "webpack-dev-server"
+  },
+
+Puis en ligne de commande:
+yarn run dev-server
+
+L'avantage est qu'il reload le serveur en fonction des sources et non du fichier compilé. 
+Et même si on supprime bundle.js, il arrive à servir l'application. Il a donc un cache en place.
+
+################Builder pour la production##################
+Dans package.json:
+  "scripts": {
+    "serve": "live-server public/",
+    "build": "webpack",
+    "dev-server": "webpack-dev-server"
+  },
+Puis lancer la commande "yarn run build"
+
+  
+################ES6 class properties##################
+Pouvoir ajouter des properties aux classes au lieu d'ajouter que des méthodes
+Il faut un plugin babbel pour cela.
+Ca évite de déclarer tout dans le constructeur.
+http://babeljs.io/docs/plugins/transform-class-properties/
+.babelrc:
+{
+  "plugins": ["transform-class-properties"]
+}
+
+
+Va permettre de déclarer des properties et des arrow functions dont le this sera bindé à la classe
+yarn add babel-plugin-transform-class-properties@6.24.1
+
+Exemple ancienne syntaxe:
+class OldSyntax {
+  constructor() {
+    this.name = "Mike";
+  }
+
+  getGreeting() {
+    return `Hi. My name is ${this.name}`;
+  }
+}
+
+const oldSyntax = new OldSyntax();
+const getGreeting = oldSyntax.getGreeting;  
+console.log(getGreeting());  ---> PLANTE
+
+ON DOIT DONC FAIRE:
+  constructor() {
+    this.name = "Mike";
+    this.getGreeting = this.getGreeting.bind(this);
+  }
+  
+MAIS C EST TRES VERBEUX. Nouvelle solution:
+Arrow function on class properties:
+
+class NewSyntax {
+  name = "Jen";
+  getGreeting = () => {
+    return `Hi. My name is ${this.name}`;
+  };
+}
+Il faut donc utiliser cette syntaxe pour toutes les méthodes qu'on déclare sauf "render", "componentdid*"
+
+#####################USING A THIRD PARTY COMPONENT############################
+
+Passing a child component:
+Exemple: on fait un composant layout mais on ne connait pas à l'avance le contenu.
+ReactDOM.render(
+  <Layout>
+    <p>This is inline</p>
+  </Layout>,
+  document.getElementById("app")
+);
+
+onst Layout = props => {
+  return (
+    <div>
+      <p>Header</p>
+      {props.children}
+      <p>Footer</p>
+    </div>
+  );
+};
+
+React-modal:
+yarn add react-modal@2.2.2
+
+import Modal from "react-modal";
+const OptionModal = props => (
+  <Modal
+    isOpen={!!props.selectedOption}
+    contentLabel="Selected Option"
+    onRequestClose={props.handleClearSelectedOption}
+  >
+    <h3>Selected option</h3>
+    {props.selectedOption && <p>{props.selectedOption}</p>}
+    <button onClick={props.handleClearSelectedOption}>Okay</button>
+  </Modal>
+);
+
+Simplicifation de la syntaxe du JSX:
+const Options = props => {
+  return (
+    <div>
+	...
+    </div>
+  );
+};
+
+Sans le return:
+const Options = props => (
+  <div>
+  ...
+  </div>
+);
+
+########################ADDING STYLE###############################
+Setting UP webpack with SCSS:
+Créer un fichier src/styles/styles.scss
+yarn add style-loader@0.18.2 css-loader@0.28.4 sass-loader@6.0.6 node-sass@4.5.3
+
+
+dans webpack.config.js
+module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
+      }
+    ]
+  },
+
+  Puis dans app.js:
+  import "./styles/styles.css";
+
+########################ARCHITECTURE AND HEADER STYLES#########################################################
+On va faire un fichier de style par composant plutôt que d'avoir un gros fichier css avec tout et des selectors
+Créer un fichier styles/base/_base.css
+--> Les fichiers partiels doivent commencer par "_"
+Ce fichier contient les configurations vraiment de base comme le font-family
+
+Dans le fichier styles/styles.css ajouter:
+@import "./base/_base.scss";
+
+Unité recommandée pour le dimenssionnement: rem (au lieu de px)
+
+Créer aussi un fichier styles/components/_<mycomponent>.scss et
+Dans le fichier styles/styles.css ajouter:
+@import "./components/_<mycomponent>.scss";
+  
+
+  IL EST CONSEILLE D'ORGANISER SON CSS SELON LA METHODOLOGIE "BEM"
+  http://getbem.com/introduction/
+  Ca permet:
+  - La réutilisabilité
+  - La modularité (on évite les problèmes de cascading)
+  - La compréhension du code
+  ... réutiliser les composants et d'éviter des erreurs ainsi que des problèmes de lenteur.
+  
+Exemple:
+On a le style standard d'un bouton:
+.button {
+  background: $purple;
+  border: none;
+  border-bottom: .3rem solid darken($purple, 10%);
+  color: white;
+  font-weight: 500;
+  padding: $s-size;
+}
+
+On veut créer une variante:
+.button--link {
+  background: none;
+  border: none;
+  color: $off-white;
+  padding: 0;
+}
+
+Ensuite on le déclare avec les deux styles:
+<button className="button button--link"  onClick={(e) => {props.handleDeleteOption(props.optionText);}}>
+  remove
+</button>
+
+
+
+  
+  
+  
+####RESET THAT SHIT###################
+Faire un reset CSS. On va utiliser une librairie existente: normalize CSS
+yarn add normalize.css@7.0.0
+Dans app.js avant les autres import css:
+import "normalize.css/normalize.css";
+Dans webpack.config.js ajotuer le processing ces css (?):
+ module: {
+    rules: [
+      {
+        test: /\.s?css$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
+      }
+    ]
+  },
+
+
+####THEMING AND VARIABLES###################
+Pour le scss, on peut faire des variables.
+Pour cela il faut créer un nouveau fichier base/_settings.scss où l'on va y définir les variables
+Ajouter ce settings.css dans le fichier styles/styles.scss:
+@import "./base/_settings.scss";
+
+####Mobile consideration##################
+
+On peut depuis chrome tester l'affichage avec les différents mobiles
+
+####REACT ROUTER##################
+Client side routing. 
+Le premier chargement de page est fourni par le serveur, les autres par javascript.
+Ca utilise Html5 history API. 
+
+1.
+yarn add react-router-dom@4.2.2
+
+2. Ajouter la dépendance dans app.js
+import { BrowserRouter, Route } from "react-router-dom";
+
+ <BrowserRouter>
+    <div>
+      <Route path="/" component={ExpenseDashboardPage} />
+      <Route path="/create" component={AddExpensePage} />
+    </div>
+  </BrowserRouter>
+
+path="/" teste uniquement si l'url démarre avec "/". Il faut ajouter une propriété "exact"
+<Route path="/" exact={true} component={ExpenseDashboardPage} />
+
+Le div qui entoure sera de toutes façons affiché. Ensuite, les routes seront affichées selon les condition du path et exact.
+
+  ReactDOM.render(routes, document.getElementById("app"));
+
+Si on appelle /create, il faut que le serveur web serve toujours index.html (on verra plus tard pour la prod:
+  dans webpack.config.js ajouter historyApiFallback:
+  devServer: {
+    contentBase: path.join(__dirname, "public"),
+    historyApiFallback: true
+  }
+
+
+
+
+
+
+
+
+
