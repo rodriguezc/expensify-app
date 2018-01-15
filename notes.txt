@@ -1433,5 +1433,29 @@ Créer un fichier AppRouter.js.
 Mettre dans des components/xxxPage les différentes pages
 
 
+Query Strings and URL Parameters:
+Chaque fois que le router affiche une page, il y ajoute des informations / properties
+Pour voir ces propriétés:
+const EditExpensePage = props => {
+  console.log(props);
+  return <div>This is from my Edit component</div>;
+};
 
+Les propriétés:
+history: très important: permet en js de déclencher des changements de routes
+match.params: contient les propriétés de l'url ?
+location: Informations sur l'url.
+
+Exemple:
+http://localhost:8080/edit?query=rent&sort=date
+location.search = query=rent&sort=date
+
+http://localhost:8080/edit#contact-us
+location.hash = #contact-us
+
+http://localhost:8080/edit/44
+<Route path="/edit/:id" component={EditExpensePage} />
+match.params: {id: 44}
+
+<div>Editing the expense with id of {props.match.params.id}</div>
 
