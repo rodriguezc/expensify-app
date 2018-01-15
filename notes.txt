@@ -1423,11 +1423,14 @@ Utiliser le composant "SWITCH" de BrowserRouter
   </BrowserRouter>
 
 
-Linking betweek routes:
+Linking betweek Routes:
 Eviter un rechargement de page.  On va utiliser un composant "NavLink"
 Link et comme NavLink mais avec moins de propriétés. Exemple: le style a appliquer pour la page active
 
 
+Organizing our Routes:
+Créer un fichier AppRouter.js. 
+Mettre dans des components/xxxPage les différentes pages
 
 
 
