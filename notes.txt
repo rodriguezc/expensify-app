@@ -1459,3 +1459,86 @@ match.params: {id: 44}
 
 <div>Editing the expense with id of {props.match.params.id}</div>
 
+###REDUX####
+State management library
+Pourquoi redux?
+Dans une application simple, on arrive a gérer l'état global de l'application depuis un seul composant.
+Mais avec une application complexe, on n'y arrive plus. Ou stocker le state, avec des pages différents, qui ont besoin de se partager des états.
+Les composants qu'on fait sans redux ne sont pas réutilisables, car même s'ils sont séparés en composant, leurs propriétés sont faites pour les composants qui les utilisent.
+Ils sont aussi très en spaghetti a cause du passage des methodes à travers plusieurs sous-composants.
+On veut pas passer des properties dans tous les composants. On va mettre en place un container redux->  Chaque composant peut aller n'importe où.
+
+REDUX répond à ces 2 questions:
+-Où stoker l'état de l'application?
+-Comment créer des composants réutilisables?
+
+On peut utiliser props pour passer des propriétés d'un parent à un enfant: Expenses --> Expense.
+On ne veut pas passer des props le long d'une chaîne de composants pour l'obtenir au dernier niveau.
+
+
+Redux Store {
+  expenses : [{_id: ..., description: 'rent', ...}]
+}
+-> Changer des data dans le Store
+-> Lire des data du Store
+
+Chaque composant peut dire 
+"Hey j'ai besoin de tel données dans le store"
+"Hey je dois changer tel donnée dans le store"
+Exemple:
+-AddExpense dit au store "J'ai besoin d'ajouter des expenses dans le store"
+-Le store lui répond "Cool. Appelle-moi quand tu en a besoin".
+
+Les autres composants peuvent aussi intéragir avec le store:
+Exemple:
+"Expenses" dit au store "Hey j'ai besoin de la liste des expenses"
+le store répond "Voici les data".
+
+Donc tout passe par le store.
+
+Et encore:
+-Le composant "Expense" dit "J'ai besoin d'avoir la possibilité de supprimer un "Expense" du store.
+-Le store lui dit "Biensûr, appelle-moi quand tu le fera". 
+C'est un pattern 
+
+yarn add redux@3.7.2
+
+
+import { createStore } from "redux";
+
+//Mon premier Store
+//Créer un store avec un état initial
+const store = createStore((state = { count: 0 }) => {
+  return state;
+});
+
+//Demander l'état du store
+console.log(store.getState());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
