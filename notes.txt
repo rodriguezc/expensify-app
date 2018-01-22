@@ -1516,25 +1516,170 @@ const store = createStore((state = { count: 0 }) => {
 console.log(store.getState());
 
 
+//dispatcher une action
+store.dispatch({
+  type: "INCREMENT"
+});
+
+//Et la traiter:
+const store = createStore((state = { count: 0 }, action) => {
+  switch (action.type) {
+    case "INCREMENT":
+      return {
+        count: state.count + 1
+      };
+    default:
+      return state;
+  }
+});
 
 
+//Subscribing and dynamic actions
+Watch for Changes
+const unsubscribe = store.subscribe(() => {
+  console.log("subscription: " + store.getState());
+});
+
+//Se désinscrire
+unsubscribe();
 
 
+store.dispatch({
+  type: "SET",
+  count: 101
+});
+
+store.dispatch({
+  type: "DECREMENT",
+  decrementBy: 10
+});
+
+Puis dans le createstore:
+    case "DECREMENT":
+      const decrementBy =
+        typeof action.decrementBy === "number" ? action.decrementBy : 1;
+
+      return {
+        count: state.count - decrementBy
+      };
+
+ES6 Object destructuring:
+const person = {
+  name: "Andrew",
+  age: 26,
+  location: {
+    city: "Philadelphia",
+    temp: 92
+  }
+};
+
+const { name, age } = person;
+console.log(`${name} is ${age}.`);
+
+//Avant
+if (person.location.city && person.location.temp) {
+  console.log(`It's ${person.location.temp} in ${person.location.city}`);
+}
+//Après (plus mieux lisible)
+const { city, temp } = person.location;
+if (city && temp) {
+  console.log(`It's ${temp} in ${city}`);
+}
+//Et avec renommage
+const { city, temp: temperature } = person.location;
+if (city && temperature) {
+  console.log(`It's ${temperature} in ${city}`);
+
+//Et on peut mettre une default value
+const { name = "Anonymous", age } = person;
+console.log(`${name} is ${age}.`);
 
 
+//renommage de name en firstName et attribution d'une valeur par défaut
+const { name: firstName = "Anonymous", age } = person;
+console.log(`${firstName} is ${age}.`);
 
 
+//Autre exemple:
+const book = {
+  title: "Ego is the Enemy",
+  author: "Ryan Holiday",
+  publisher: {
+    name: "Penguin"
+  }
+};
+
+const { name: publisherName = "Self-Published" } = book.publisher;
+
+console.log(publisherName);
+
+//Array destructuring
+const address = [
+  "1299 S Juniper Street",
+  "Philadelphia",
+  "Pennsylvania",
+  "19147"
+];
+//Avant
+console.log(`You are in ${address[1]} ${address[2]} `);
+
+const [, city2, state] = address;
+console.log(`You are in ${city2} ${state}`);
+
+//Array destructuring - Valeurs par défaut
+const address = [];
+//Avant
+console.log(`You are in ${address[1]} ${address[2]} `);
+
+const [, , state = "New York"] = address;
+console.log(`You are in ${state}`);
 
 
+//Rappel sur les parentèses:
+const incrementCount = () => ({
+  type: "INCREMENT"
+});
+
+=
+
+const incrementCount = () => {
+  return {
+    type: "INCREMENT"
+  };
+};
 
 
+//Actions - mieux les déclarer:
+const incrementCount = () => ({
+  type: "INCREMENT"
+});
+store.dispatch(incrementCount());
 
 
+//Amélioration de la destructuration
+//Sans destructuration
+const add = (data = { a: 10, b: 12 }, c) => data.a + data.b + c;
+console.log(add({ a: 1, b: 12 }, 10));
+//Avec destructuration
+const add2 = ({ a, b }, c) => a + b + c;
+console.log(add2({ a: 1, b: 12 }, 10));
+La destructuration permet en plus de définir des valeurs par défaut
 
 
+//amélioration de l'incrementCount avec destructuration
+const incrementCount = ({ incrementBy = 1 }) => ({
+  type: "INCREMENT",
+  incrementBy: incrementBy
+});
 
-
-
+//Encore plus simple:
+//S'il n'y a pas d'objet on en crée un vide  ={} si y a pas incrementBy on mets par défaut 1, objet vide ou pas
+const incrementCount = ({ incrementBy = 1 } = {}) => ({
+  type: "INCREMENT",
+  incrementBy
+});
+store.dispatch(incrementCount({ incrementBy: 5 }));
+store.dispatch(incrementCount());
 
 
 
