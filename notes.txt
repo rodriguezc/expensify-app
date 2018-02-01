@@ -1732,4 +1732,27 @@ console.log({
 Dans ce cas 27 override 24. Si on avais mis dans l'autre sens, il y aurait eu 24 comme valeur
 
 
-####Wrapping up our reducers####
+####Filtering up our reducers####
+//On déclare une arrow function qui reçoit en paramètre la liste, ainsi que les paramètres de filtrage
+const getVisibleExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
+  return expenses.filter(expense => {
+    const startDateMatch =
+      typeof startDate !== "number" || expense.createdAt >= startDate;
+    const endDateMatch =
+      typeof endDate !== "number" || expense.createdAt <= endDate;
+    const textMatch =
+      typeof text !== "string" ||
+      expense.description.toLowerCase().includes(text.toLowerCase());
+    return startDateMatch && endDateMatch && textMatch;
+  });
+};
+//On utilise un suscribe pour appliquer le filtre:
+store.subscribe(() => {
+  const state = store.getState();
+  const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+  console.log(visibleExpenses);
+});
+
+####Sorting redux data####
+
+
