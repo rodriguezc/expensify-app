@@ -1817,7 +1817,6 @@ export default (state = expensesReducerDefaultState, action) => {
 3. src/selectors
 Les selectors sont juste des arrow functions pour faire du filtrage, qui prennent en paramètre la liste originale, ainsi que le filtre à appliquer.
 Elle retourne une copie de la liste originale, filtrée.
-
 // Get visible expenses
 export default (expenses, { text, sortBy, startDate, endDate }) => {
   return expenses
@@ -1842,7 +1841,45 @@ export default (expenses, { text, sortBy, startDate, endDate }) => {
 };
 
 
+4. src/store
+le store redux: 
+import { createStore, combineReducers } from "redux";
+import expensesReducer from "../reducers/expenses";
+import filtersReducer from "../reducers/filters";
 
-src/store
+// Store creation
 
+export default () => {
+  const store = createStore(
+    combineReducers({
+      expenses: expensesReducer,
+      filters: filtersReducer
+    })
+  );
+  return store;
+};
 
+###Higher Order Component###
+C'est ce qui permet a redux de se connecter avec react.
+Le but est de créer un wrapper autour d'un composant react pour ajouter de la fonctionnalité à ce composant.
+Exemple:
+//Le HOC
+const requireAuthentication = WrappedComponent => {
+  return props => (
+    <div>
+      {props.isAuthenticated ? (
+        <WrappedComponent {...props} />
+      ) : (
+        <p>Please login to view the info</p>
+      )}
+    </div>
+  );
+};
+//On wrappe le composant original (Info)
+const AuthInfo = requireAuthentication(Info);
+
+//On utilise AuthInfo comme nouveau composant:
+ReactDOM.render(
+  <AuthInfo isAuthenticated={true} info="This are the details" />,
+  document.getElementById("app")
+);
