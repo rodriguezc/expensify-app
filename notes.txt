@@ -1778,3 +1778,71 @@ const getVisibleExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
     });
 };
 
+####React avec redux - organisation du code####
+1.  src/actions
+On y déclare les actions. Un fichier d'action par reducer?
+Pour rappel une action est une arrow function qui retourne un tableau avec un attribut "type" ainsi qu'une "valeur"
+// REMOVE_EXPENSE
+export const removeExpense = ({ id } = {}) => ({
+  type: "REMOVE_EXPENSE",
+  id
+});
+
+2. src/reducers
+On y déclare un fichier par reducer.
+Pour rappel, un reducer définit l'état par défaut du store, ainsi que l'implémentation des actions
+const expensesReducerDefaultState = [];
+export default (state = expensesReducerDefaultState, action) => {
+  switch (action.type) {
+    case "ADD_EXPENSE":
+      return [...state, action.expense];
+    case "REMOVE_EXPENSE":
+      return state.filter(({ id }) => id !== action.id);
+    case "EDIT_EXPENSE":
+      return state.map(expense => {
+        if (expense.id === action.id) {
+          return {
+            ...expense,
+            ...action.updates
+          };
+        } else {
+          return expense;
+        }
+      });
+    default:
+      return state;
+  }
+};
+
+3. src/selectors
+Les selectors sont juste des arrow functions pour faire du filtrage, qui prennent en paramètre la liste originale, ainsi que le filtre à appliquer.
+Elle retourne une copie de la liste originale, filtrée.
+
+// Get visible expenses
+export default (expenses, { text, sortBy, startDate, endDate }) => {
+  return expenses
+    .filter(expense => {
+      const startDateMatch =
+        typeof startDate !== "number" || expense.createdAt >= startDate;
+      const endDateMatch =
+        typeof endDate !== "number" || expense.createdAt <= endDate;
+      const textMatch = expense.description
+        .toLowerCase()
+        .includes(text.toLowerCase());
+
+      return startDateMatch && endDateMatch && textMatch;
+    })
+    .sort((a, b) => {
+      if (sortBy === "date") {
+        return a.createdAt < b.createdAt ? 1 : -1;
+      } else if (sortBy === "amount") {
+        return a.amount < b.amount ? 1 : -1;
+      }
+    });
+};
+
+
+
+src/store
+
+
