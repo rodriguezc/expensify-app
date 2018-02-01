@@ -1730,3 +1730,6 @@ console.log({
   age: 27
 });
 Dans ce cas 27 override 24. Si on avais mis dans l'autre sens, il y aurait eu 24 comme valeur
+
+
+####Wrapping up our reducers####
