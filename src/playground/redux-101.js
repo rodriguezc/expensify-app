@@ -28,9 +28,11 @@ const resetCount = () => ({
   count: 0
 });
 
-//Mon premier Store
-//Créer un store avec un état initial
-const store = createStore((state = { count: 0 }, action) => {
+//Reducers
+//1. Reducers are pure functions: the output is only determined by the input. Et donc pas de référence externe
+//2. Never change state or action. Il ne faut jamais directement réassigner les valeurs en paramètre. Ne pas changer state ni action.
+
+const countReducer = (state = { count: 0 }, action) => {
   switch (action.type) {
     case "INCREMENT":
       return {
@@ -54,7 +56,11 @@ const store = createStore((state = { count: 0 }, action) => {
     default:
       return state;
   }
-});
+};
+
+//Mon premier Store
+//Créer un store avec un état initial
+const store = createStore(countReducer);
 
 //Demander l'état du store
 console.log(store.getState());

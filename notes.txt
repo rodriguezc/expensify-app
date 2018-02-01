@@ -1681,9 +1681,26 @@ const incrementCount = ({ incrementBy = 1 } = {}) => ({
 store.dispatch(incrementCount({ incrementBy: 5 }));
 store.dispatch(incrementCount());
 
+//Reducers
+const store = createStore((..) => {
+  ...
+  );
+
+La fonction passée à createStore est un reducer
+
+//Reducers
+//1. Reducers are pure functions: the output is only determined by the input. Et donc pas de référence externe
+//2. Never change state or action. Il ne faut jamais directement réassigner les valeurs en paramètre. Ne pas changer state ni action.
 
 
+Working with multiple reducers: avec combineReducers
+Le but est d'éviter d'avoir un big reducer contenant tout
+import { createStore, combineReducers } from "redux";
 
+expensesReducer = la fonction qu'on passe normalement au createStore
 
-
+//Store creation
+const store = createStore(
+  combineReducers({ expenses: expensesReducer, filters: filtersReducer })
+);
 
