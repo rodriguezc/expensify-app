@@ -1711,3 +1711,22 @@ const store = createStore(
 [...names,'Julie'] On crée un nouvel array à partir de l'array names et on y ajoute un nouvel élément
 ['Adam',...names,'Mike']
 
+//Spread objects
+yarn add babel-plugin-transform-object-rest-spread
++ dans babelrc: 
+{
+  "presets": ["env", "react"],
+  "plugins": ["transform-class-properties", "transform-object-rest-spread"]
+}
+
+const user = {
+  name: "Jen",
+  age: 24
+};
+
+console.log({
+  ...user,
+  location: "Philadelphia",
+  age: 27
+});
+Dans ce cas 27 override 24. Si on avais mis dans l'autre sens, il y aurait eu 24 comme valeur
