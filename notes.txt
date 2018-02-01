@@ -1694,7 +1694,8 @@ La fonction passée à createStore est un reducer
 
 
 Working with multiple reducers: avec combineReducers
-Le but est d'éviter d'avoir un big reducer contenant tout
+Le but est d'éviter d'avoir un big reducer gérant tout l'état de l'application.
+On combine donc les reducers
 import { createStore, combineReducers } from "redux";
 
 expensesReducer = la fonction qu'on passe normalement au createStore
@@ -1703,4 +1704,10 @@ expensesReducer = la fonction qu'on passe normalement au createStore
 const store = createStore(
   combineReducers({ expenses: expensesReducer, filters: filtersReducer })
 );
+
+
+//Spread operators in reducers
+//Pour les arrays:
+[...names,'Julie'] On crée un nouvel array à partir de l'array names et on y ajoute un nouvel élément
+['Adam',...names,'Mike']
 
