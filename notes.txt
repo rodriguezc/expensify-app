@@ -1883,3 +1883,39 @@ ReactDOM.render(
   <AuthInfo isAuthenticated={true} info="This are the details" />,
   document.getElementById("app")
 );
+
+###Connect store adnd component with React Redux####
+1. yarn add react-redux
+2. Dans app.js importer le provider
+import { Provider } from "react-redux";
+3. Wrapper l'élément root de l'appli:
+const jsx = (
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>
+);
+ReactDOM.render(jsx, document.getElementById("app"));
+
+4. Connecter l'élément:
+
+Exemple manuel dans le composant :
+import { connect } from "react-redux";
+const ConnectedExpenseList = connect(state => {
+  //Connexion des properties du composant au reducer
+  return {
+    expenses: state.expenses
+  };
+})(ExpenseList);
+
+export default ConnectedExpenseList;
+
+Exemple plus simple et plus courant:
+const mapStateToProps = state => {
+  //Connexion des properties du composant au reducer
+  return {
+    expenses: state.expenses,
+    filters: state.filters
+  };
+};
+
+export default connect(mapStateToProps)(ExpenseList);
