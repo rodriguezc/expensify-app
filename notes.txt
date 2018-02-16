@@ -1919,3 +1919,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(ExpenseList);
+
+Any time the store is updated, mapStateToProps will be called. 
+The results of mapStateToProps must be a plain object, which will be merged into the component’s props
