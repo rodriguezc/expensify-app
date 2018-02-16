@@ -1923,3 +1923,19 @@ export default connect(mapStateToProps)(ExpenseList);
 Any time the store is updated, mapStateToProps will be called. 
 The results of mapStateToProps must be a plain object, which will be merged into the component’s props
 
+
+###Controlled inputs for filters###
+ Quand on connecte un élément, il y a la fonction dispatch qui devient disponible dans props.
+ Onpeut donc dispatcher des actions à redux lorsqu'il y a des changements de valeur:
+ 
+const ExpenseListFilters = props => (
+  <div>
+    <input
+      type="text"
+      value={props.filters.text}
+      onChange={e => {
+        props.dispatch(setTextFilter(e.target.value));
+      }}
+    />
+  </div>
+);
