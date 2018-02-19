@@ -1942,3 +1942,24 @@ const ExpenseListFilters = props => (
 
 Controlled input = un input dont la valeur est contrôlée par javascript
 
+<input ... autofocus/>
+
+The autofocus attribute is a boolean attribute.
+When present, it specifies that an <input> element should automatically get focus when the page loads.
+
+
+Bonne pratique:
+  onAmountChange = e => {
+    const amount = e.target.value;
+    this.setState(() => ({ amount }));
+  };
+
+  VS Ne marche pas car exécuté en asynchrone:
+    onAmountChange = e => {
+    this.setState(() => ({ amount: e.target.value }));
+  };
+  Il faudrait utiliser e.persit();
+
+
+  #####Date picker####
+  librairie moment recommandée pour manipuler les dates
