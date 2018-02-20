@@ -1966,3 +1966,20 @@ Bonne pratique:
 
   #####Navigation programmatique####
  props.history.push("/");
+
+
+#####Redux dev tools####
+Comment intégrer:
+1. Installer l'extension chrome redux-devtools-extension
+2. Ajouter dans la ligne createStore comme deuxième paramètre:
+ const store = createStore(
+    combineReducers({
+      expenses: expensesReducer,
+      filters: filtersReducer
+    }),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+-La console nous permet de dispatcher des events notamment grâce à l'écran "dispatcher"
+-le slider permet de voir l'application dans le temps
+-Conseillé de le laisser ouvert cette console lors des devs
+
