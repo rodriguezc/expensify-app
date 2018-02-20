@@ -1983,3 +1983,28 @@ Comment intégrer:
 -le slider permet de voir l'application dans le temps
 -Conseillé de le laisser ouvert cette console lors des devs
 
+
+####Setting up tests###
+1. Installation:
+yarn add jest@20.0.4
+2. Ajouter test dans package.json:
+"test": "jest"
+3. yarn test
+4. Créer un fichier src/tests/add.test.js
+5. y ajouter:
+const add = (a, b) => a + b;
+
+//Testcase
+test("should add two numbers", () => {
+  const result = add(3, 4);
+  expect(result).toBe(7);
+});
+
+Documentation:
+https://facebook.github.io/jest/docs/en/api.html
+
+
+Lancer jest en mode watch
+yarn test -- --watch
+
+
