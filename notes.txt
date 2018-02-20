@@ -1963,3 +1963,6 @@ Bonne pratique:
 
   #####Date picker####
   librairie moment recommandée pour manipuler les dates
+
+  #####Navigation programmatique####
+ props.history.push("/");
