@@ -2008,3 +2008,22 @@ Lancer jest en mode watch
 yarn test -- --watch
 
 
+####Tester des actions####
+On va vérifier que la classe qui génère l'action génère bien le bon objet
+test("should setup remove expense action object", () => {
+  const action = removeExpense({ id: "123abc" });
+  expect(action).toEqual({
+    type: "REMOVE_EXPENSE",
+    id: "123abc"
+  });
+});
+
+###Tester que l'action a généré un id quelconque
+  const action = addExpense(expenseData);
+  expect(action).toEqual({
+    type: "ADD_EXPENSE",
+    expense: {
+      ...expenseData,
+      id: expect.any(String)
+    }
+  });
