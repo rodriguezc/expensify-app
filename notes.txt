@@ -2075,4 +2075,13 @@ test("should filter by text value", () => {
 ###Snapshot testing --> Permet de tester les composants
 ##On utile react-test-rendererer
 
+const renderer = new ReactShallowRenderer();
+renderer.render(<Header />);
+//la 1re fois le snapshot sera créé (dans tests/_snapshots_). La deuxième fois il sera comparé
+expect(renderer.getRenderOutput()).toMatchSnapshot();
+
+Updatrer un snapshot:
+npm test -- -u
+
+
 

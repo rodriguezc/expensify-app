@@ -10,7 +10,12 @@ console.log(now.format("MMM Do, YYYY"));
 //setup onChange and value for textarea
 
 export default class ExpenseForm extends React.Component {
-  constructor(props) {
+
+    static propTypes = {
+        onSubmit: PropTypes.func
+    };
+
+    constructor(props) {
     super(props);
     this.state = {
       description: props.expense ? props.expense.description : "",
