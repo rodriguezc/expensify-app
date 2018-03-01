@@ -2083,5 +2083,64 @@ expect(renderer.getRenderOutput()).toMatchSnapshot();
 Updatrer un snapshot:
 npm test -- -u
 
+###Enzyme###
+Fait par airbnb. Renderer for React
+1.
+yarn add enzyme@3.0.0 enzyme-adapter-react-16@1.0.0 raf@3.3.2
+
+2. Créer un fichier setupTests.js
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+Enzyme.configure({adapter: new Adapter()});
+
+3. Créer un fichier jest.config.json
+{
+  "setupFiles": [
+    "raf/polyfill",
+    "<rootDir>/src/tests/setupTests.js"
+  ]
+}
+4. Modifier le fichier package.json la commande script test:
+"test": "jest --config=jest.config.json"
+
+
+###Shallow rendering API######
+Permet de naviguer dans le virtual dom est de faire des asserts
+http://airbnb.io/enzyme/docs/api/shallow.html
+
+yarn add enzyme-to-json@3.0.1
+
+import React from "react";
+import {shallow} from "enzyme";
+import toJSON from 'enzyme-to-json';
+import Header from "../../components/Header";
+
+test("should render Header correctly", () => {
+  const wrapper = shallow(<Header/>);
+  expect(toJSON(wrapper)).toMatchSnapshot();
+
+//  expect(wrapper.find("h1").text()).toBe('Expensify');
+});
+
+!!! Ajouter snapshotSerializer directement dans jest.config.json afin de ne pas avoir à importer toJson:
+
+{
+  "setupFiles": [
+    "raf/polyfill",
+    "<rootDir>/src/tests/setupTests.js"
+  ],
+
+  "snapshotSerializers": [
+    "enzyme-to-json/serializer"
+  ]
+
+}
+--> Permet de faire:
+expect(wrapper).toMatchSnapshot();
+
+
+
+
+
 
 
