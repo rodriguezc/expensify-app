@@ -2195,3 +2195,55 @@ test("should set new date on date change", () => {
    wrapper.find('SingleDatePicker').prop("onDateChange")(now);
    expect(wrapper.state("createdAt")).toEqual(now);
 });
+
+
+#####Comment mieux tester les composants qui utilisent redux#####
+1. Eviter d'utiliser directement "dispatch" dans le composant:
+<ExpenseForm
+  onSubmit={expense => {
+    props.dispatch(addExpense(expense));
+    props.history.push("/");
+  }}
+/>
+
+Mais à la place mapper la fonction  avec mapDispatchProps  :
+<ExpenseForm
+  onSubmit={expense => {
+    props.onSubmit(addExpense(expense));
+    props.history.push("/");
+  }}
+/>
+const mapDispatchToProps = (dispatch) => ({
+        onSubmit: (expense) => dispatch(addExpense(expense))
+    }
+);
+
+export default connect(undefined, mapDispatchToProps())(AddExpensePage);
+
+L'avantage est qu'on peut tester plus facilement du coup:
+const onSubmit = jest.fn();
+const history = {push: jest.fn()};
+const wrapper = shallow(<AddExpensePage onSubmit={onSubmit} history={history} />);
+test("should render AddExpensePage correctly", () => {
+    expect(wrapper).toMatchSnapshot();
+
+});
+
+
+
+###Documentation jest: global methods pour effectuer des actions comme @Beforeclass @before
+https://facebook.github.io/jest/docs/en/api.html
+
+Implémentation d'un beforeEach:
+let onSubmit, history, wrapper;
+beforeEach(() => {
+    onSubmit = jest.fn();
+    history = {push: jest.fn()};
+    wrapper = shallow(<AddExpensePage onSubmit={onSubmit} history={history} />);
+});
+
+test("should render AddExpensePage correctly", () => {
+    expect(wrapper).toMatchSnapshot();
+
+});
+
