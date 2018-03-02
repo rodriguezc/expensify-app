@@ -2150,7 +2150,26 @@ test('should render ExpenseList with expenses', () => {
     expect(wrapper).toMatchSnapshot();
 });
 
+#####Mocking librairies with Jest####
+Comment mocker avec jest:
 
+1. Créer un répertoire src/tests/__mock__
+2. Créer un fichier moment.js avec comme contenu
+const moment = require.requireActual('moment');
+export default (timestamp = 0) => {
+    return moment(timestamp);
+}
+
+Ca permet de faire en sorte que la date = 0 si pas date fournie.
+
+
+#####Testing user interaction####
+const value = '12.122';
+const wrapper = shallow(<ExpenseForm/>);
+wrapper.find('input').at(1).simulate('change', {
+    target: {value}
+});
+expect(wrapper.state('amount')).toBe('');
 
 
 
