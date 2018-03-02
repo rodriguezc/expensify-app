@@ -2172,5 +2172,26 @@ wrapper.find('input').at(1).simulate('change', {
 expect(wrapper.state('amount')).toBe('');
 
 
+#####Testing spies#### (espions - spy) - Marked functions
+Principe:
+test("should call onSubmit prop for valid form submission", () => {
+    const onSubmitSpy = jest.fn()
+    onSubmitSpy("Andrew", "Philadelphia");
+    expect(onSubmitSpy).toHaveBeenCalledWith("Andrew", "Philadelphia");
+});
 
 
+Appeler une fonction avec une valeur particulière:
+test("should set calendar focus on change ", () => {
+    const focused = true;
+    const wrapper = shallow(<ExpenseForm />);
+    wrapper.find('SingleDatePicker').prop("onFocusChange")({focused});
+    expect(wrapper.state('calendarFocused')).toBe(focused);
+});
+OU
+test("should set new date on date change", () => {
+   const now = moment();
+   const wrapper = shallow(<ExpenseForm/>);
+   wrapper.find('SingleDatePicker').prop("onDateChange")(now);
+   expect(wrapper.state("createdAt")).toEqual(now);
+});
