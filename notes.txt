@@ -2218,6 +2218,9 @@ const mapDispatchToProps = (dispatch) => ({
     }
 );
 
+Attention!!! Il est conseillé au lieu de mettre "onSubmit" de reprendre le nom de l'action!!!
+
+
 export default connect(undefined, mapDispatchToProps())(AddExpensePage);
 
 L'avantage est qu'on peut tester plus facilement du coup:
