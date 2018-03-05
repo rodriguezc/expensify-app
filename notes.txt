@@ -2250,3 +2250,58 @@ test("should render AddExpensePage correctly", () => {
 
 });
 
+
+###Production WEBPACK###
+Run webpack in production mode:
+https://webpack.js.org/guides/production/
+
+dans package.json:
+    "build:prod": "webpack -p --env production",
+
+
+dans webpack.config.js:
+const isProduction = env === 'production';
+
+Entre autre il faut utiliser un autre plugin pour générer le source map. Il va créer un fichier à part .map
+C'est un processus plus coûteux donc a utiliser uniquement pour le build de production
+devtool: isProduction ? 'source-map' : "cheap-module-eval-source-map",
+
+###Creating Separate CSS Files###
+les fichiers css restent importés dans app.js mais on va mettre un plugin à part pour que ça crée un fichier
+css séparé:
+1. yarn add extract-text-webpack-plugin@3.0.0
+2. Dans webpack.config.js
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CSSExtract = new ExtractTextPlugin('styles.css');
+3. Dire a webpack d'écrire dans un fichier séparé les css
+  module: {
+               ...,
+                {
+                    test: /\.s?css$/,
+                    use: CSSExtract.extract(
+                         {use: [{
+                                loader: 'css-loader', options: {sourceMap: true}
+                             }, {
+                                 loader: 'sass-loader', options: {sourceMap: true}
+                             }]}
+                        )
+                }
+            ]
+        },
+        plugins: [
+          CSSExtract
+        ],
+    ],
+
+4. Ajouter la css dans index.html
+<link rel="stylesheet" type="text/css" href="/styles.css" />
+
+5. Dans webpack:
+devtool: isProduction ? 'source-map' : "inline-source-map",
+
+
+
+
+
+
+
