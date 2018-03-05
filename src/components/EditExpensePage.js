@@ -1,12 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
 import ExpenseForm from "./ExpenseForm";
-import {editExpense, removeExpense} from "../actions/expenses";
+import {addExpense, editExpense, removeExpense} from "../actions/expenses";
 
 
 export class EditExpensePage extends React.Component {
-    editExpense = (expense) => {
-        this.props.dispatch(editExpense(this.props.expense.id, expense));
+    onSubmit = (expense) => {
+        this.props.editExpense(this.props.expense.id, expense);
+        this.props.history.push("/");
+    }
+
+    onRemove= (expense) => {
+        this.props.removeExpense({id: this.props.expense.id});
         this.props.history.push("/");
     }
     render() {
@@ -14,14 +19,10 @@ export class EditExpensePage extends React.Component {
             <div>
                 <ExpenseForm
                     expense={this.props.expense}
-                    onSubmit={editExpense}
+                    onSubmit={this.onSubmit}
                 />
                 <button
-                    onClick={() => {
-                        this.props.dispatch(removeExpense({id: this.props.expense.id}));
-                        this.props.history.push("/");
-                    }}
-                >
+                    onClick={this.onRemove}>
                     Remove
                 </button>
             </div>
@@ -31,9 +32,7 @@ export class EditExpensePage extends React.Component {
 
 // Remove expense via dispatch and then redirect to dashboard
 
-mapStateToProps = (state, props) => {
-    console.log("ICILA", props);
-
+const mapStateToProps = (state, props) => {
     return {
         expense: state.expenses.find(
             expense => expense.id === props.match.params.id
@@ -41,9 +40,10 @@ mapStateToProps = (state, props) => {
     };
 };
 
-connect(mapStateToProps)
 
-(
-    EditExpensePage
-)
-;
+const mapDispatchToProps = (dispatch, props) => ({
+    editExpense: (id, expense) => dispatch(editExpense(id, expense)),
+    removeExpense: (data) => dispatch(removeExpense(data))
+});
+
+connect(mapStateToProps, mapDispatchToProps)(EditExpensePage);
