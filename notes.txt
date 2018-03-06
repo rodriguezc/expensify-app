@@ -2321,6 +2321,19 @@ app.listen(3000, () => {
     console.log("Server is up!");
 });
 
+###Deploying with Heroku###
+1. Install heroku cli
+https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+2. heroku login
+3. Se placer dans le root dir du projet git
+4. heroku create rodriguezc-expensify-app
+5. Heroku lance la commande npm run start. Il faut donc ajouter celle-ci dans package.json:
+   "start": "node server/server.js"
+6. dans server.js on récupère le port fourni par heroku
+const port = process.env.PORT;
+app.listen(port, () => {
+    console.log("Server is up!");
+});
 
 
 
