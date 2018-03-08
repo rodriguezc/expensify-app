@@ -1,53 +1,45 @@
-//Object destructuring
-const person = {
-  name: "Andrew",
-  age: 27,
-  location: {
-    city: "Philadelphia",
-    temp: 92
-  }
-};
+//
+// Object destructuring
+//
 
-const { name: firstName = "Anonymous", age } = person;
-console.log(`${firstName} is ${age}.`);
+// const person = {
+//   name: 'Andrew',
+//   age: 27,
+//   location: {
+//     city: 'Philadelphia',
+//     temp: 88
+//   }
+// };
 
-//Avant
-if (person.location.city && person.location.temp) {
-  console.log(`It's ${person.location.temp} in ${person.location.city}`);
-}
-//Après
-const { city, temp: temperature } = person.location;
-if (city && temperature) {
-  console.log(`It's ${temperature} in ${city}`);
-}
+// const { name: firstName = 'Anonymous', age } = person;
+// console.log(`${firstName} is ${age}.`);
 
-const book = {
-  title: "Ego is the Enemy",
-  author: "Ryan Holiday",
-  publisher: {
-    name: "Penguin"
-  }
-};
+// const { city, temp: temperature } = person.location;
+// if (city && temperature) {
+//   console.log(`It's ${temperature} in ${city}.`);
+// }
 
-const { name: publisherName = "Self-Published" } = book.publisher;
+// const book = {
+//   title: 'Ego is the Enemy',
+//   author: 'Ryan Holiday',
+//   publisher: {
+//     // name: 'Penguin'
+//   }
+// };
 
-console.log(publisherName);
+// const { name: publisherName = 'Self-Published' } = book.publisher;
 
-//Array destructuring
-const address = [
-  "1299 S Juniper Street",
-  "Philadelphia",
-  "Pennsylvania",
-  "19147"
-];
-//Avant
-console.log(`You are in ${address[1]} ${address[2]} `);
+// console.log(publisherName); // Penguin, Self-Published
 
-const [, city2, state = "New York"] = address;
-console.log(`You are i ${city2} ${state}`);
+//
+// Array destructuring
+//
 
-const item = ["Coffee (hot)", "$2.00", "$2.50", "$2.75"];
+// const address = ['1299 S Juniper Street', 'Philadelphia', 'Pennsylvania', '19147'];
+// const [, city, state = 'New York'] = address;
+// console.log(`You are in ${city} ${state}.`);
 
+const item = ['Coffee (iced)', '$3.00', '$3.50', '$3.75'];
 const [itemName, , mediumPrice] = item;
 
 console.log(`A medium ${itemName} costs ${mediumPrice}`);
