@@ -2336,6 +2336,23 @@ app.listen(port, () => {
 });
 
 
+###dev dependencies vs dependencies et travail pour livrer en production###
+yarn add xxx --dev
+
+yarn install
+--> Installe les dépendances de dev
+
+yarn install --production
+--> n'installe que les dépendances de production (du coup pas les devDependencies).
+--> Le but est de n'avoir que les dépendances permettant de builder l'appli. Le reste non.
 
 
 
++ Le build doit terminer dans dist
+
+devServer: On peut lui donner le path par défaut à servir:
+devServer{
+    publicPath: 'dist/'
+}
+
+yarn run build:prod
